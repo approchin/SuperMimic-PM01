@@ -69,7 +69,7 @@ flowchart LR
 
 ## 4. 权重与离线使用
 
-从[模型权重下载页](https://github.com/approchin/SuperMimic-PM01/releases/tag/v0.1.0)获取两个模型文件。
+本版本仓库包含两个模型文件；也可从[固定版本权重目录](https://github.com/approchin/SuperMimic-PM01/tree/v0.1.0/models)单独下载。
 
 | 文件 | 内容 |
 | --- | --- |

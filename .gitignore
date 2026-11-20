@@ -1,6 +1,8 @@
-# Model binaries are distributed separately from the source tree.
+# The released 65k binaries are versioned; ignore other local model outputs.
 /models/*.pt
 /models/*.onnx
+!/models/actor_0000065000.pt
+!/models/actor_65000_fp32.onnx
 /models/*.engine
 
 # Local environments, caches and generated experiment artifacts.
