@@ -1,0 +1,120 @@
+{
+  "run": "PM01 SuperMimic retrain 011 seed 13",
+  "vector_step": 65000,
+  "source_actor_sha256": "0e6ff97b2a1444e07b48f5ff641a89dea8d3148032fb7c632addd6af12757c98",
+  "onnx": "actor_65000_fp32.onnx",
+  "onnx_sha256": "56436a9977e47279074ea620b0da806df179af709b5475f82cecd13942c95395",
+  "opset": 13,
+  "original_robot_spec_sha256": "16ef9c198454143bbabc4395938133b46749adc1b36e659f1a3b8380e979c014",
+  "source_tensor_dtype": "float32",
+  "source_evaluation_mlp_autocast": "cuda:bfloat16",
+  "deployed_forward_dtype": "float32",
+  "onnx_inputs": {
+    "obs_hist": [
+      1,
+      10,
+      78
+    ],
+    "goal": [
+      1,
+      630
+    ]
+  },
+  "onnx_outputs": {
+    "action23": [
+      1,
+      23
+    ]
+  },
+  "history": "oldest to newest; first sample repeated 10 times",
+  "observation": [
+    "q - default_q - calibration (24 rad)",
+    "qd (24 rad/s)",
+    "omega in LINK_BASE (3 rad/s)",
+    "unit gravity in LINK_BASE (3)",
+    "previous issued clipped composed action including head (24)"
+  ],
+  "observation_normalizer": "(obs - obs_norm.mean) / sqrt(obs_norm.var + 0.01**2)",
+  "goal_normalizer": "(goal - goal_norm.mean) / sqrt(goal_norm.var + 0.01**2)",
+  "goal_frame_offsets": [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50
+  ],
+  "future_index_boundary": "repeat last clip frame",
+  "goal_per_frame": [
+    "future-current reference position in current reference heading (3)",
+    "future rotation in current reference heading, first 2 columns row-major (6)",
+    "future reference root linear velocity in its own body frame (3)",
+    "future reference root angular velocity in its own body frame (3)",
+    "future reference q (24)",
+    "0.1 * future reference qd (24)"
+  ],
+  "encoder": [
+    630,
+    2048,
+    1024,
+    512,
+    256,
+    32
+  ],
+  "hidden_activation": "ELU",
+  "encoder_final": "tanh",
+  "decoder": [
+    812,
+    2048,
+    1024,
+    512,
+    256,
+    23
+  ],
+  "decoder_input": "concatenate latent32 first, then normalized history flattened",
+  "control_hz": 50,
+  "default_calibration_rad": "zero for calibrated model-space joint angles",
+  "head": "current reference frame, J23_HEAD_YAW",
+  "composed_action": "clip(concat(action23, (head_ref-default_head-calibration_head)/scale_head), -20, 20)",
+  "q_target_rad": "default_q + calibration + scale * composed_action",
+  "nominal_pd": "clip(kp * (q_target-q) - kd * qd, -effort_limit, effort_limit)",
+  "joint_names": [
+    "J00_HIP_PITCH_L",
+    "J01_HIP_ROLL_L",
+    "J02_HIP_YAW_L",
+    "J03_KNEE_PITCH_L",
+    "J04_ANKLE_PITCH_L",
+    "J05_ANKLE_ROLL_L",
+    "J06_HIP_PITCH_R",
+    "J07_HIP_ROLL_R",
+    "J08_HIP_YAW_R",
+    "J09_KNEE_PITCH_R",
+    "J10_ANKLE_PITCH_R",
+    "J11_ANKLE_ROLL_R",
+    "J12_WAIST_YAW",
+    "J13_SHOULDER_PITCH_L",
+    "J14_SHOULDER_ROLL_L",
+    "J15_SHOULDER_YAW_L",
+    "J16_ELBOW_PITCH_L",
+    "J17_ELBOW_YAW_L",
+    "J18_SHOULDER_PITCH_R",
+    "J19_SHOULDER_ROLL_R",
+    "J20_SHOULDER_YAW_R",
+    "J21_ELBOW_PITCH_R",
+    "J22_ELBOW_YAW_R",
+    "J23_HEAD_YAW"
+  ],
+  "network_parameters": 8480055,
+  "export_torch": "2.0.1+cu117",
+  "export_onnx": "1.16.2",
+  "source_actor_note": "ONNX source hash identifies the original checkpoint before metadata redaction; the original checkpoint is not included.",
+  "published_actor": "actor_0000065000.pt",
+  "published_actor_sha256": "5f3f5ff56ee6feb637332b3baab3be97eb35b66237e72c60cb4c0a9113132cbb",
+  "published_actor_note": "All model and normalizer tensors are unchanged; private metadata strings and path-like dictionary keys were redacted. This is not a resume checkpoint.",
+  "published_robot_spec_sha256": "f7a78844a4623386acf3f790c675d49bfba47bf695ec1a9dd0f57f5558ac2270",
+  "published_robot_spec_note": "Minimal source-derived inference fields; private paths and unrelated fields removed."
+}

@@ -1,0 +1,4 @@
+evaluation_label,protocol,checkpoint_collection_step,training_seed,evaluated_clips,completed_clips,completion_fraction,normalized_return,controlled_joint_mae_deg,controlled_joint_rmse_deg,executed_frames,planned_frames,executed_frame_fraction
+0 ms repeat A,fixed200_zero_delay,65000,13,200,195,0.975,0.8356038643419743,8.01288268476005,11.207412731979401,75768,76570,0.9895259239911193
+0 ms repeat B,fixed200_zero_delay,65000,13,200,194,0.97,0.8364076372981072,8.007160657357888,11.191901438680672,75789,76570,0.9898001828392321
+Per-clip fixed random delay,fixed200_per_clip_fixed_random_delay,65000,13,200,194,0.97,0.8366664980351924,7.99177926081479,11.175602398664413,75985,76570,0.9923599320882852

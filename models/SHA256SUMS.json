@@ -1,0 +1,13 @@
+{
+  "algorithm": "sha256",
+  "files": {
+    "actor_0000065000.pt": {
+      "sha256": "5f3f5ff56ee6feb637332b3baab3be97eb35b66237e72c60cb4c0a9113132cbb",
+      "bytes": 33955189
+    },
+    "actor_65000_fp32.onnx": {
+      "sha256": "56436a9977e47279074ea620b0da806df179af709b5475f82cecd13942c95395",
+      "bytes": 33930202
+    }
+  }
+}

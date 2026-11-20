@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "description": "Source provenance for the PM01 MuJoCo Warp training and evaluation subset.",
+  "upstream_code": [
+    {
+      "project": "HoloMotion",
+      "repository": "https://github.com/HorizonRobotics/HoloMotion",
+      "revision": "f52dd81ae935a828b0296f5ee0f833beb7378bf0",
+      "license": "Apache-2.0 with upstream notices",
+      "notice": "NOTICE"
+    },
+    {
+      "project": "supermimic_vibed",
+      "repository": "https://github.com/zita-ch/supermimic_vibed",
+      "revision": "a1508d42c9d1699a52e8233ab16d08c488441ab9",
+      "license": "MIT",
+      "upstream_file_hashes": "holomotion/src/algo/supermimic/upstream.json",
+      "scope": "Hashes in the upstream manifest identify the original eight source files. The integrated implementation includes modifications."
+    }
+  ],
+  "checkpoint_source_comparison": {
+    "checkpoint_vector_steps": 65000,
+    "comparison": "SHA-256 values in the historical lightweight Actor specification compared against the maintained training source copy before release edits.",
+    "registered_files": 49,
+    "byte_identical": 43,
+    "differing": 6,
+    "missing": 0,
+    "differences": [
+      {
+        "path": "holomotion/src/algo/supermimic/checkpoint.py",
+        "checkpoint_source_sha256": "3fae09b912617e1c5c764377bba51d509333cf7e57c7767941d9dccaf465767a",
+        "maintained_source_sha256": "1fbfd27fdafd8881f1e87b6670afac99107ac7d1fb96bce8770c34d35a07f512",
+        "change": "Added strict checkpoint-bound verification for the CUDA graph storage repair."
+      },
+      {
+        "path": "holomotion/src/algo/supermimic/evaluation_queue.py",
+        "checkpoint_source_sha256": "bc13328cb585904487d255f845a439b807c6ffa377d227fce7aa38b264d08f01",
+        "maintained_source_sha256": "7f58ee9169c3f20d53a3dc380bbf252782315c396f4dd58a8cf3d78e02b54b3f",
+        "change": "Added evaluator summaries and joint-angle metric fields."
+      },
+      {
+        "path": "holomotion/src/algo/supermimic/retrain_eval_worker.py",
+        "checkpoint_source_sha256": "fc719c61c7b54f834c6cd9e81a81455a8f1a89ca5958365c5c724fa1daece49a",
+        "maintained_source_sha256": "0cf1cb14bdc83ad615335e2d634d255b1b99400e881370181597a4a4b4889fb7",
+        "change": "Fixed routing and paired physical prefixes for push evaluation, then added joint-angle metrics."
+      },
+      {
+        "path": "holomotion/src/algo/supermimic/retrain_runtime.py",
+        "checkpoint_source_sha256": "17a9ec4408806fdecb8cab93caad55058433cfc8c9a903f6944c05ed51b1355f",
+        "maintained_source_sha256": "125c9d12dff501f4f49fd488011a62a37cf7f45bfeb8326d631f9b9f9ce16b83",
+        "change": "Adjusted resume-time evaluation scheduling and reporting when a physics fault interrupts collection."
+      },
+      {
+        "path": "holomotion/src/env/reference_tracking/command_delay.py",
+        "checkpoint_source_sha256": "cc9521379a0657aaabd2d8d986b243f53713f73753d5d57dc704d26459e5bdc2",
+        "maintained_source_sha256": "dccd379ccd0d3011fe958ceffe579d21dfd58d4b1682d5e663ce11d46e198036",
+        "change": "Retained the delay mask and control output buffers used by the captured CUDA graph."
+      },
+      {
+        "path": "holomotion/src/env/reference_tracking/warp_backend.py",
+        "checkpoint_source_sha256": "cce4a76a5db8215e0aa5fad0be09157e2a37ef3133731a3b1b029bb043d709d1",
+        "maintained_source_sha256": "77c56569a45f4f58f55f7c529b29631c69371c7b35242c8f317a750abfb32aae",
+        "change": "Retained the tensors backing captured physics commands and verified their storage across replay."
+      }
+    ],
+    "scope": "This covers the files enumerated by the training program at launch. The 011 wrapper, the rest of the repository, external packages, and the final release tree have separate provenance. The maintained copy includes fixes applied after the 65,000-step snapshot."
+  },
+  "training_runtime": {
+    "recorded_by": "65,000-step Actor specification",
+    "python": "3.10.19",
+    "seed": 13,
+    "num_envs": 5120,
+    "amp": "bf16",
+    "actor_batch": 4096,
+    "actor_microbatch": 4096,
+    "utd_events_per_vector_step": "1/2",
+    "physics_backend": "mujoco_warp",
+    "torch": "2.9.1+cu128",
+    "torch_cuda": "12.8",
+    "mujoco": "3.16.0",
+    "mujoco_warp": "3.16.0",
+    "warp_lang": "1.18.0",
+    "epa_horizon_capacity": 64
+  },
+  "physics_patch": {
+    "script": "patches/restore_native_epa64.py",
+    "package": "mujoco-warp==3.16.0",
+    "change": "Increase MJ_MAX_EPAHORIZON from 24 to 64 in the pinned implementation. The script verifies hashes of three files and edits the constant in types.py."
+  },
+  "release_changes": [
+    "The release retains the six maintenance changes listed above and adds modification notices.",
+    "The HDF5 and generic FK utilities import an independently implemented rotation_math module.",
+    "The optional Isaac evaluator import is deferred in the release subset.",
+    "The release training code includes rotation_math and source_adaptive_sampling in source fingerprinting for subsequent runs."
+  ],
+  "robot_parameter_sources": [
+    {
+      "project": "EngineAI native SDK",
+      "repository": "https://github.com/engineai-robotics/engineai_robotics_native_sdk",
+      "revision": "335c60e88772c26c7852d0abd6b3c7439037dd8f",
+      "license": "BSD-3-Clause",
+      "source_path": "assets/resource/robot/pm01_edu/urdf/serial_pm01_edu.urdf",
+      "comparison": "The tracked URDF matches the hash of the native URDF input recorded by the checkpoint."
+    },
+    {
+      "project": "EngineAI RL Lab",
+      "repository": "https://github.com/engineai-robotics/engineai_rl_lab",
+      "revision": "14ec57be718586bd0ac45375aa1115bd896fbdbc",
+      "license": "BSD-3-Clause",
+      "source_path": "source/engineai_rl_lab/engineai_rl_lab/tasks/tracking/robots/pm01.py",
+      "comparison": "The tracked PM01 task file matches a source hash in the robot specification."
+    }
+  ]
+}

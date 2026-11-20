@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "record_kind": "sanitized_publisher_reported_historical_aggregates",
+  "prepared_date": "2026-11-17",
+  "training_seed": 13,
+  "independent_training_seeds": 1,
+  "released_checkpoint_collection_step": 65000,
+  "final_training_collection_step": 99918,
+  "training_stop_reason": "sustained_actual_tracking_degradation; no convergence claim",
+  "native_fixed200_retests": {
+    "physics_backend": "MuJoCo-Warp",
+    "actor_input": "reference_only_v0",
+    "mlp_precision": "CUDA BF16",
+    "precision_readback": "torch.bfloat16",
+    "numerical_protocol": {
+      "amp": "BF16 MLP only",
+      "allow_tf32_matmul": true,
+      "allow_tf32_cudnn": true,
+      "reset_noise": false,
+      "domain_randomization": false,
+      "capture_graph": true,
+      "epa_horizon": 64,
+      "physics_substeps": 4,
+      "physics_dt_s": 0.005,
+      "control_dt_s": 0.02
+    },
+    "parallel_environments": 64,
+    "native_termination_thresholds": {
+      "root_height_abs_m": 0.25,
+      "max_tracked_body_height_abs_m": 0.3,
+      "full_root_orientation_error_squared_rad2": 0.8,
+      "comparison": "strictly greater",
+      "nonfinite": "any nonfinite native completion error"
+    },
+    "fixed_reference_clips": 200,
+    "planned_frames_per_evaluation": 76570,
+    "random_fixed_delay_ms_choices": [
+      0,
+      5,
+      10,
+      15,
+      20
+    ],
+    "random_delay_assignment": "one uniform isolated random.Random(13).choice per clip; frozen across the eight retained checkpoints",
+    "random_delay_assignment_seed": 13,
+    "random_delay_histogram": {
+      "0": 29,
+      "5": 48,
+      "10": 47,
+      "15": 38,
+      "20": 38
+    },
+    "delay_application": "hold previous full joint target during initial 5 ms physics substeps; simulation continues",
+    "dataset_role": "development/regression; repeatedly used for training monitoring and snapshot selection",
+    "data_exposure": "no exact clip overlap with the training pool in preparation records; independence of recording sources is not established",
+    "evidence_level": "existing per-clip metric records and matching archived summaries; raw per-frame trajectories are not included in the release",
+    "cpu_onnx_relation": "FP32 CPU ONNX demonstrations are a separate protocol and do not reproduce these BF16 simulation metrics"
+  },
+  "metrics": {
+    "completion": "all planned transitions executed without native termination; does not imply precise tracking or physical hardware stability",
+    "normalized_return": "equal-clip mean of total_reward / (0.1 * planned_steps); failed tail remains in the denominator",
+    "controlled_joint_mae_deg": "equal-clip mean of mean absolute degree error over executed frames and the 23 controlled joints",
+    "controlled_joint_rmse_deg": "sqrt(equal-clip mean of mean squared degree error over executed frames and the 23 controlled joints))",
+    "frame_alignment": "simulated next state versus next reference frame; terminating frame included; padding and post-done frames excluded",
+    "executed_frame_fraction": "sum(executed_frames) / sum(planned_frames); no zero-filled unexecuted tail",
+    "uncertainty": "no confidence intervals estimated; repeated evaluations and snapshots are not independent training seeds",
+    "missing_csv_value": "empty cell means unavailable/not reported, never zero"
+  },
+  "historical_panels": {
+    "separate_from_repaired_native_retests": true,
+    "precision_readback": null,
+    "precision_note": "small historical summaries lack per-task precision readback; not used for FP32/BF16 comparison",
+    "evidence_level": "archived small summaries and derived historical tables; complete original replay chain is unavailable",
+    "targeted18": "4 run/transition plus 12 jump references seen in training, plus 2 diagnostic challenge references",
+    "push120": "5 references x 24 fixed conditions; standing plus walk, run, jump A and jump B; not 120 independent motions",
+    "push120_controls": "matched no-push branch from the same native physical prefix",
+    "perturbation": "root horizontal velocity increment of 0.5 or 1.0 m/s; 60 conditions at each magnitude; not a force in newtons",
+    "standing24": "one fixed pose x 4 directions x 3 event times (1, 2.5, 4 s) x 2 magnitudes; subset of push120, not extra independent trials",
+    "standing_velocity_settling_confirmation": "first post-event time after 25 consecutive valid 50 Hz frames with planar root speed <0.10 m/s and full angular speed norm <0.20 rad/s; includes 0.5 s confirmation window",
+    "standing_settling_scope": "does not imply return to original position, orientation or pose; dynamic reference recovery times are not claimed"
+  },
+  "public_files": {
+    "native_bf16_retests_65k.csv": "three evaluations of checkpoint 65k",
+    "native_bf16_candidate_snapshots.csv": "all eight retained snapshots in the matched random-delay retest batch; not a dense or multi-seed learning curve",
+    "historical_panels_65k.csv": "separate historical panels; subset rows must not be added as independent samples",
+    "delay_strata_65k.csv": "five strata contain different clips and cannot identify a causal latency effect"
+  },
+  "public_implementation_reference": [
+    "training/holomotion/src/algo/supermimic/retrain_eval_worker.py",
+    "training/holomotion/src/env/reference_tracking/mdp.py"
+  ],
+  "source_code_note": "the public training tree is a maintained snapshot, not a byte-for-byte archive of every historical evaluation file",
+  "release_preparation": "these historical aggregates use transcription, deterministic metric checks and plotting only; their native CUDA BF16 evaluations were not rerun; newly recorded CPU FP32 demonstration videos use a separate protocol"
+}

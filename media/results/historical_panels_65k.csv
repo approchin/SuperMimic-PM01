@@ -1,0 +1,10 @@
+panel_label,checkpoint_collection_step,training_seed,completed_cases,planned_cases,reference_count,case_unit,normalized_return,controlled_joint_mae_deg,controlled_joint_rmse_deg,executed_frames,planned_frames,precision_readback,training_exposure,subset_of,velocity_settled_within_5s,velocity_settling_confirmation_mean_s,velocity_settling_confirmation_median_s,velocity_settling_confirmation_p90_s
+Historical fixed200 zero delay,65000,13,195,200,200,reference_clip,0.837127613723278,,,,,not_recorded_in_small_summary,development_set_reused_for_selection,,,,,
+Run or transition,65000,13,4,4,4,reference_clip,,,,,,not_recorded_in_small_summary,training_seen,Targeted 18,,,,
+Jump,65000,13,12,12,12,reference_clip,,,,,,not_recorded_in_small_summary,training_seen,Targeted 18,,,,
+Challenge run,65000,13,2,2,2,reference_clip,,,,,,not_recorded_in_small_summary,diagnostic_small_panel,Targeted 18,,,,
+Targeted 18,65000,13,18,18,18,reference_clip,0.7070858577887217,,,,,not_recorded_in_small_summary,16_training_seen_plus_2_diagnostic,,,,,
+Paired push conditions,65000,13,120,120,5,fixed_perturbation_condition,0.7582675511638324,,,,,not_recorded_in_small_summary,3_of_4_dynamic_references_training_seen,,,,,
+Paired no-push controls,65000,13,120,120,5,matched_control_condition,,,,,,not_recorded_in_small_summary,same_references_as_push,Paired push conditions,,,,
+Standing push subset,65000,13,24,24,1,fixed_perturbation_condition,,,,,,not_recorded_in_small_summary,fixed_pose_reference,Paired push conditions,24,1.800833,1.83,2.334
+Standing no-push subset,65000,13,24,24,1,matched_control_condition,,,,,,not_recorded_in_small_summary,same_pose_as_standing_push,Paired no-push controls,24,0.5,,

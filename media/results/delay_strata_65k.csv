@@ -1,0 +1,6 @@
+checkpoint_collection_step,training_seed,fixed_delay_ms,assigned_clips,completed_clips,interpretation
+65000,13,0,29,29,different_clips_in_each_stratum_not_a_causal_delay_sweep
+65000,13,5,48,47,different_clips_in_each_stratum_not_a_causal_delay_sweep
+65000,13,10,47,45,different_clips_in_each_stratum_not_a_causal_delay_sweep
+65000,13,15,38,37,different_clips_in_each_stratum_not_a_causal_delay_sweep
+65000,13,20,38,36,different_clips_in_each_stratum_not_a_causal_delay_sweep
